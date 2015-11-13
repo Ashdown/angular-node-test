@@ -1,9 +1,9 @@
 'use strict';
 
-var controllers = angular.module('controllers', []);
+var controllers = angular.module('controllers', ['ngCookies']);
 
-controllers.controller('loginCtrl', ['$scope', '$location',
-    function($scope, $location){
+controllers.controller('loginCtrl', ['$scope', '$location', '$cookies',
+    function($scope, $location, $cookies){
 
         var validUsernames = ['user', 'manager', 'admin', 'developer', 'tester'],
             isUsernameValid = function(username){
@@ -17,16 +17,17 @@ controllers.controller('loginCtrl', ['$scope', '$location',
 
         $scope.submit = function(){
             if(isUsernameValid($scope.username)) {
+                $cookies.put('loggedin', true);
                 $location.path('logged-in');
             }
         }
 
     }]);
 
-controllers.controller('loggedInCtrl', ['$scope', '$location',
-    function($scope, $location){
+controllers.controller('loggedInCtrl', ['$scope', '$location', '$cookies',
+    function($scope, $location, $cookies){
         $scope.logout = function(){
-            //TODO: clear cookies
+            $cookies.remove('loggedin');
             $location.path('login');
         }
 
