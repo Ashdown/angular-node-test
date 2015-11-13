@@ -6,7 +6,7 @@ describe('Login Application', function() {
 
     describe('user type user', function() {
         it('should see the login page', function() {
-            expect(element(by.css('h2')).getText()).toContain('Please login');
+            expect(element(by.css('h2')).getText()).toContain('Please Login');
         });
 
         it('should be able to login', function() {

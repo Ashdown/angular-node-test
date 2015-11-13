@@ -12,6 +12,10 @@ loginApp.config(['$routeProvider',
                 templateUrl: 'partials/login.html',
                 controller: 'loginCtrl'
             }).
+            when('/logged-in', {
+                templateUrl: 'partials/logged-in.html',
+                controller: 'loggedInCtrl'
+            }).
             otherwise({
                 redirectTo: '/login'
             });

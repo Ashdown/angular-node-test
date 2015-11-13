@@ -2,11 +2,16 @@
 
 var controllers = angular.module('controllers', []);
 
-controllers.controller('loginCtrl', ['$scope',
-    function($scope){
+controllers.controller('loginCtrl', ['$scope', '$location',
+    function($scope, $location){
 
         $scope.submit = function(){
-            //do something...
+            $location.path('logged-in');
         }
+
+    }]);
+
+controllers.controller('loggedInCtrl', [
+    function(){
 
     }]);
