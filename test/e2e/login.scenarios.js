@@ -10,12 +10,22 @@ describe('Login Application', function() {
 
     describe('user type user', function() {
         it('should be able to login', function() {
-
             element(by.css('.username')).sendKeys('user');
             element(by.css('.password')).sendKeys('password');
             element(by.css('.submit-button')).click();
             expect(element(by.css('h2')).getText()).toContain('Logged In');
+        });
 
+        it('needs to enter a username', function() {
+            element(by.css('.password')).sendKeys('password');
+            element(by.css('.submit-button')).click();
+            expect(element(by.css('h2')).getText()).not.toContain('Logged In');
+        });
+
+        it('needs to enter a password', function() {
+            element(by.css('.username')).sendKeys('user');
+            element(by.css('.submit-button')).click();
+            expect(element(by.css('h2')).getText()).not.toContain('Logged In');
         });
     });
 
