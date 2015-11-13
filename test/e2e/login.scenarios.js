@@ -31,4 +31,14 @@ describe('Login Application', function() {
         });
     });
 
+    describe('invalid type user', function() {
+
+        it('should not be able to login', function() {
+            element(by.css('.username')).sendKeys('invalid');
+            element(by.css('.password')).sendKeys('password');
+            element(by.css('.submit-button')).click();
+            expect(element(by.css('h2')).getText()).not.toContain('Logged In');
+        });
+    });
+
 });
