@@ -23,7 +23,11 @@ controllers.controller('loginCtrl', ['$scope', '$location',
 
     }]);
 
-controllers.controller('loggedInCtrl', [
-    function(){
+controllers.controller('loggedInCtrl', ['$scope', '$location',
+    function($scope, $location){
+        $scope.logout = function(){
+            //TODO: clear cookies
+            $location.path('login');
+        }
 
     }]);

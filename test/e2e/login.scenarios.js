@@ -27,6 +27,14 @@ describe('Login Application', function() {
             element(by.css('.submit-button')).click();
             expect(element(by.css('h2')).getText()).not.toContain('Logged In');
         });
+
+        it('should be able to log out', function(){
+            element(by.css('.username')).sendKeys('user');
+            element(by.css('.password')).sendKeys('password');
+            element(by.css('.submit-button')).click();
+            element(by.css('.logout-link')).click();
+            expect(element(by.css('h2')).getText()).toContain('Please Login');
+        });
     });
 
     describe('manager type user', function() {
