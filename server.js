@@ -17,9 +17,34 @@ app.use(bodyParser.json());                                     // parse applica
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 app.use(methodOverride());
 
+//model
+
+var Todo = mongoose.model('Todo', {
+    text : String
+});
+
+// routes ==========================
+
+// api ---------------------------------------------------------------------
+
+app.get('/api/todos', function(req, res) {
+
+    // use mongoose to get all todos in the database
+    Todo.find(function(err, todos) {
+
+        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
+        if (err)
+            res.send(err)
+
+        res.json(todos); // return all todos in JSON format
+    });
+});
+
 app.get('/', function(req, res) {
     res.sendfile('./app/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
+
+
 
 // listen (start app with node server.js) ======================================
 app.listen(8000);
