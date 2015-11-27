@@ -1,7 +1,7 @@
 describe('Login Application', function() {
 
     beforeEach(function () {
-        browser.get('app/index.html');
+        browser.get('/');
     });
 
     it('should show the login page', function() {
