@@ -39,13 +39,15 @@ var Todo = mongoose.model('restaurants', {
 
 // api ---------------------------------------------------------------------
 
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+var dbUrl = 'mongodb://john:12345@apollo.modulusmongo.net:27017/usiz4aMy';
+
+
 app.get('/api/auth-attempts', function(req, res) {
 
-    var MongoClient = require('mongodb').MongoClient;
-    var assert = require('assert');
-    var url = 'mongodb://john:12345@apollo.modulusmongo.net:27017/usiz4aMy';
     var callback = function() {
-        console.log('callback')
+        console.log('callback');
     };
 
     var findAttempts = function(db, callback) {
@@ -60,13 +62,44 @@ app.get('/api/auth-attempts', function(req, res) {
         });
     };
 
-    MongoClient.connect(url, function(err, db) {
+    MongoClient.connect(dbUrl, function(err, db) {
         assert.equal(null, err);
         findAttempts(db, function() {
             db.close();
         });
     });
 
+});
+
+app.get('/api/new-attempt', function(req, res) {
+    //req.body.text
+
+    var callback = function(result) {
+        console.log('callback');
+    };
+
+    var insertDocument = function(db, callback) {
+        db.collection('attempts').insertOne({
+
+            "attempt": {
+                "ip": "123.456.789.000",
+                "datetime": "12345",
+                "action": "AUTH_FAILURE",
+                "username": "new_somebody"
+            }
+        }, function(err, result) {
+            assert.equal(err, null);
+            console.log("Inserted a document into the attempts collection.");
+            callback(result);
+        });
+    };
+
+    MongoClient.connect(dbUrl, function(err, db) {
+        assert.equal(null, err);
+        insertDocument(db, function() {
+            db.close();
+        });
+    });
 });
 
 
