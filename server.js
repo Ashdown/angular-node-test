@@ -8,7 +8,19 @@ var methodOverride = require('method-override'); // simulate DELETE and PUT (exp
 
 // configuration =================
 
-mongoose.connect('mongodb://node:nodeuser@mongo.onmodulus.net:27017/uwO3mypu');     // connect to mongoDB database on modulus.io
+
+//test db
+//mongoose.connect('mongodb://node:nodeuser@mongo.onmodulus.net:27017/uwO3mypu');     // connect to mongoDB database on modulus.io
+//new db
+mongoose.connect('mongodb://john:12345@waffle.modulusmongo.net:27017/ojyTeb8i');
+/*
+ our database has been created and is ready for use.
+ MONGO URI
+ mongodb://<user>:<pass>@apollo.modulusmongo.net:27017/ovEw7ety
+ MONGO CONSOLE
+ mongo apollo.modulusmongo.net:27017/ovEw7ety -u <user> -p <pass>
+ You can view stats, manage users, export your data, and other tasks through the Database Dashboard.
+ */
 
 app.use(express.static(__dirname + '/app'));                 // set the static files location /app/img will be /img for users
 app.use(morgan('dev'));                                         // log every request to the console
@@ -19,7 +31,7 @@ app.use(methodOverride());
 
 //model
 
-var Todo = mongoose.model('Todo', {
+var Todo = mongoose.model('restaurants', {
     text : String
 });
 
@@ -27,18 +39,36 @@ var Todo = mongoose.model('Todo', {
 
 // api ---------------------------------------------------------------------
 
-app.get('/api/todos', function(req, res) {
+app.get('/api/auth-attempts', function(req, res) {
 
-    // use mongoose to get all todos in the database
-    Todo.find(function(err, todos) {
+    var MongoClient = require('mongodb').MongoClient;
+    var assert = require('assert');
+    var url = 'mongodb://john:12345@apollo.modulusmongo.net:27017/usiz4aMy';
+    var callback = function() {
+        console.log('callback')
+    };
 
-        // if there is an error retrieving, send the error. nothing after res.send(err) will execute
-        if (err)
-            res.send(err)
+    var findAttempts = function(db, callback) {
+        var cursor = db.collection('attempts').find( );
+        cursor.each(function(err, doc) {
+            assert.equal(err, null);
+            if (doc != null) {
+                res.json(doc);
+            } else {
+                callback();
+            }
+        });
+    };
 
-        res.json(todos); // return all todos in JSON format
+    MongoClient.connect(url, function(err, db) {
+        assert.equal(null, err);
+        findAttempts(db, function() {
+            db.close();
+        });
     });
+
 });
+
 
 app.get('/', function(req, res) {
     res.sendfile('./app/index.html'); // load the single view file (angular will handle the page changes on the front-end)
