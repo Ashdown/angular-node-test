@@ -2,8 +2,8 @@
 
 var controllers = angular.module('controllers', ['ngCookies']);
 
-controllers.controller('loginCtrl', ['$scope', '$location', '$cookies',
-    function($scope, $location, $cookies){
+controllers.controller('loginCtrl', ['$scope', '$location', '$cookies', '$http',
+    function($scope, $location, $cookies, $http){
 
         var validUsernames = ['user', 'manager', 'admin', 'developer', 'tester'],
             isUsernameValid = function(username){
@@ -14,20 +14,36 @@ controllers.controller('loginCtrl', ['$scope', '$location', '$cookies',
                 }
                 return false;
             },
-            updateAuthenticationRecord = function(success) {
-                //make json request
+            updateAuthenticationRecord = function(username, success) {
+
+                $http({
+                    method: 'POST',
+                    url: '/api/new-attempt',
+                    data: {
+                        username: username,
+                        success: success
+                    }
+                }).then(
+                    function successCallback(response) {
+                        console.log(response);
+                    },
+                    function errorCallback() {
+                        //error
+                    });
             }
 
         $scope.submit = function(){
 
             var success = isUsernameValid($scope.username);
 
+            updateAuthenticationRecord($scope.username, success);
+
             if(success) {
                 $cookies.put('loggedin', true);
                 $location.path('logged-in');
             }
 
-            updateAuthenticationRecord(success);
+
         }
 
     }]);

@@ -70,17 +70,18 @@ app.get('/api/auth-attempts.json', function(req, res) {
 
 });
 
-app.get('/api/new-attempt', function(req, res) {
-    //req.body.text
+app.post('/api/new-attempt', function(req, res) {
 
     var output = {"success":false};
+
+    console.log(req.body);
 
     var insertDocument = function(db, callback) {
         db.collection('attempts').insertOne({
             "ip": "123.456.789.000",
             "datetime": "12345",
-            "action": "AUTH_FAILURE",
-            "username": "new_somebody"
+            "action": req.body.success ? "AUTH_SUCCESS" : "AUTH_FAILURE",
+            "username": req.body.username
         }, function(err, result) {
             assert.equal(err, null);
             console.log("Inserted a document into the attempts collection.");
