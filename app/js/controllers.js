@@ -25,10 +25,8 @@ controllers.controller('loginCtrl', ['$scope', '$location', '$cookies', '$http',
                     }
                 }).then(
                     function successCallback(response) {
-                        console.log(response);
                     },
                     function errorCallback() {
-                        //error
                     });
             }
 

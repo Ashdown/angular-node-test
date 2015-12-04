@@ -74,8 +74,6 @@ app.post('/api/new-attempt', function(req, res) {
 
     var output = {"success":false};
 
-    console.log(req.body);
-
     var insertDocument = function(db, callback) {
         db.collection('attempts').insertOne({
             "ip": "123.456.789.000",
@@ -84,7 +82,6 @@ app.post('/api/new-attempt', function(req, res) {
             "username": req.body.username
         }, function(err, result) {
             assert.equal(err, null);
-            console.log("Inserted a document into the attempts collection.");
             callback(result);
         });
     };
