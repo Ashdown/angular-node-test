@@ -46,16 +46,14 @@ var dbUrl = 'mongodb://john:12345@apollo.modulusmongo.net:27017/usiz4aMy';
 
 app.get('/api/auth-attempts', function(req, res) {
 
-    var callback = function() {
-        console.log('callback');
-    };
+    var output = {"attempts":[]};
 
     var findAttempts = function(db, callback) {
         var cursor = db.collection('attempts').find( );
         cursor.each(function(err, doc) {
             assert.equal(err, null);
             if (doc != null) {
-                res.json(doc);
+                output.attempts.push(doc);
             } else {
                 callback();
             }
@@ -66,6 +64,7 @@ app.get('/api/auth-attempts', function(req, res) {
         assert.equal(null, err);
         findAttempts(db, function() {
             db.close();
+            res.json(output);
         });
     });
 
@@ -74,19 +73,12 @@ app.get('/api/auth-attempts', function(req, res) {
 app.get('/api/new-attempt', function(req, res) {
     //req.body.text
 
-    var callback = function(result) {
-        console.log('callback');
-    };
-
     var insertDocument = function(db, callback) {
         db.collection('attempts').insertOne({
-
-            "attempt": {
-                "ip": "123.456.789.000",
-                "datetime": "12345",
-                "action": "AUTH_FAILURE",
-                "username": "new_somebody"
-            }
+            "ip": "123.456.789.000",
+            "datetime": "12345",
+            "action": "AUTH_FAILURE",
+            "username": "new_somebody"
         }, function(err, result) {
             assert.equal(err, null);
             console.log("Inserted a document into the attempts collection.");

@@ -1,6 +1,6 @@
-{"attempt": {
+{
     "ip": "123.456.789.000",
     "datetime": "12345",
     "action": "AUTH_FAILURE",
     "username": "somebody"
-}}
+}

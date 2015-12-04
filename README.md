@@ -51,7 +51,7 @@ MongoClient.connect(url, function(err, db) {
 ### prime database
 
 modulus login --github
-mongoimport --db usiz4aMy --collection attempts --drop --file package-auth-attempts.json --host apollo.modulusmongo.net --port 27017 -u rory.devane@gmail.com -p Code1234
+mongoimport --db usiz4aMy --collection attempts --drop --file package-auth-attempts.json --host apollo.modulusmongo.net --port 27017 -u john -p 12345
 
 # Sky Apps Team - Welcome!
 The Apps team at Sky are pleased to send you this unattended test. This means we think your CV is pretty good so we want to see if your approach to work is the same as ours. Our team is very Agile and TDD oriented so we believe a few lines of great code speak more than endless CV pages! We’d like you to use this test to show us how awesome you are at what you do.
