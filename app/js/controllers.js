@@ -13,13 +13,21 @@ controllers.controller('loginCtrl', ['$scope', '$location', '$cookies',
                     }
                 }
                 return false;
+            },
+            updateAuthenticationRecord = function(success) {
+                //make json request
             }
 
         $scope.submit = function(){
-            if(isUsernameValid($scope.username)) {
+
+            var success = isUsernameValid($scope.username);
+
+            if(success) {
                 $cookies.put('loggedin', true);
                 $location.path('logged-in');
             }
+
+            updateAuthenticationRecord(success);
         }
 
     }]);

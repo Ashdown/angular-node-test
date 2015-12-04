@@ -44,7 +44,7 @@ var assert = require('assert');
 var dbUrl = 'mongodb://john:12345@apollo.modulusmongo.net:27017/usiz4aMy';
 
 
-app.get('/api/auth-attempts', function(req, res) {
+app.get('/api/auth-attempts.json', function(req, res) {
 
     var output = {"attempts":[]};
 
@@ -73,6 +73,8 @@ app.get('/api/auth-attempts', function(req, res) {
 app.get('/api/new-attempt', function(req, res) {
     //req.body.text
 
+    var output = {"success":false};
+
     var insertDocument = function(db, callback) {
         db.collection('attempts').insertOne({
             "ip": "123.456.789.000",
@@ -89,7 +91,9 @@ app.get('/api/new-attempt', function(req, res) {
     MongoClient.connect(dbUrl, function(err, db) {
         assert.equal(null, err);
         insertDocument(db, function() {
+            output.success = true;
             db.close();
+            res.json(output);
         });
     });
 });
